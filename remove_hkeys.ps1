@@ -57,29 +57,6 @@ $content = $content -replace '\n{3,}', "`n`n"
 Set-Content -Path $configPath -Value $content -NoNewline
 Write-Host "ossec.conf cleaned successfully"
 
-# =====================================================
-# PART 4: ENABLE SCA + REMOTE COMMANDS
-# =====================================================
-Write-Host "`nEnabling SCA + remote commands..."
-
-if (-not (Test-Path $internalOptions)) {
-    New-Item -Path $internalOptions -ItemType File -Force | Out-Null
-}
-
-Copy-Item $internalOptions "$internalOptions.bak" -Force
-Write-Host "Backup created: $internalOptions.bak"
-
-$lines = Get-Content $internalOptions -ErrorAction SilentlyContinue |
-    Where-Object {
-        $_ -notmatch '^wazuh_command\.remote_commands=1' -and
-        $_ -notmatch '^sca\.remote_commands=1'
-    }
-
-$lines += 'wazuh_command.remote_commands=1'
-$lines += 'sca.remote_commands=1'
-
-Set-Content -Path $internalOptions -Value $lines
-Write-Host "SCA + remote commands enabled"
 
 # =====================================================
 # RESTART AGENT
@@ -88,3 +65,4 @@ Restart-Service $ServiceName -Force
 Get-Service $ServiceName
 
 Write-Host "`nConfiguration update completed successfully."
+
