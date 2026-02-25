@@ -28,7 +28,7 @@ Write-Host "ExecutionPolicy set to Bypass for this session"
 
 $WazuhManager = "wazuh.isstechnologies.in"
 $AgentName    = $env:COMPUTERNAME
-$Version      = "4.14.2"
+$Version      = "4.14.3"
 $MsiPath      = "$env:TEMP\wazuh-agent.msi"
 $LogPath      = "$env:TEMP\wazuh-agent-install.log"
 
@@ -115,3 +115,4 @@ Get-Service Wazuh
 
 Write-Host "Wazuh agent restarted successfully"
 Write-Host "Installation + SCA configuration completed"
+
